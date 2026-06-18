@@ -1,19 +1,19 @@
-import { footer, nav } from '../../data/content';
+import { footer, nav, meta } from '../../data/content';
 import logo from '../../assets/silenzio-logo.svg';
 
 export function Footer() {
   return (
     <footer className="border-t border-ink/10 bg-paper">
-      <div className="max-w-site mx-auto px-5 md:px-8 pt-20 pb-12">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
-          <div className="md:col-span-7">
-            <img src={logo} alt="silenzio" className="h-9 md:h-11 w-auto mb-7 select-none" draggable={false} />
+      <div className="max-w-site mx-auto px-5 md:px-8 pt-24 pb-12">
+        <div className="grid grid-cols-12 gap-6 md:gap-10">
+          <div className="col-span-12 md:col-span-7">
+            <img src={logo} alt="silenzio" className="h-10 md:h-14 w-auto mb-8 select-none" draggable={false} />
             <p className="text-ink/65 text-[15px] leading-relaxed max-w-[58ch]">
               {footer.tagline}
             </p>
           </div>
 
-          <div className="md:col-span-5">
+          <div className="col-span-6 md:col-span-3">
             <p className="eyebrow mb-5">навигация</p>
             <ul className="flex flex-col gap-2.5">
               {nav.map((l) => (
@@ -23,6 +23,15 @@ export function Footer() {
                   </a>
                 </li>
               ))}
+            </ul>
+          </div>
+
+          <div className="col-span-6 md:col-span-2">
+            <p className="eyebrow mb-5">связь</p>
+            <ul className="flex flex-col gap-2.5 text-[14px]">
+              <li><a href={`tel:${meta.phone.replace(/[^+\d]/g, '')}`} className="text-ink/75 hover:text-ink">{meta.phone}</a></li>
+              <li><a href={`mailto:${meta.email}`} className="text-ink/75 hover:text-ink">{meta.email}</a></li>
+              <li className="text-ink/55">{meta.city}</li>
             </ul>
           </div>
         </div>

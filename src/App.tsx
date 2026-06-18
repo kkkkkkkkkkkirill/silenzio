@@ -4,7 +4,6 @@ import { Hero } from './components/sections/Hero';
 import { Manifesto } from './components/sections/Manifesto';
 import { Services } from './components/sections/Services';
 import { Products } from './components/sections/Products';
-import { Screens } from './components/sections/Screens';
 import { Process } from './components/sections/Process';
 import { Why } from './components/sections/Why';
 import { Quote } from './components/sections/Quote';
@@ -19,7 +18,6 @@ export function App() {
         <Manifesto />
         <Services />
         <Products />
-        <Screens />
         <Process />
         <Why />
         <Quote />
