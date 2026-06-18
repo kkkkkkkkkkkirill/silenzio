@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  body { font-family: 'Archivo', system-ui, sans-serif; line-height: 1.55; }
+  ::selection { background: #0e0e0e; color: #fff; }
+}
+
+@layer utilities {
+  .display { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 500; }
+  .grayscale-soft { filter: grayscale(100%) contrast(1.04); }
+  .grayscale-bw { filter: grayscale(100%) contrast(1.08); }
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #8c8c8c;
+    font-weight: 500;
+  }
+  .hair-line { height: 1px; background-color: #0e0e0e; opacity: 0.08; }
+  .reveal { opacity: 0; transform: translateY(14px); transition: opacity 700ms cubic-bezier(0.22, 1, 0.36, 1), transform 700ms cubic-bezier(0.22, 1, 0.36, 1); transition-delay: var(--reveal-delay, 0ms); }
+  .reveal.is-visible { opacity: 1; transform: translateY(0); }
+}
