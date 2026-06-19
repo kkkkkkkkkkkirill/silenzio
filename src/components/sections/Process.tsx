@@ -1,35 +1,39 @@
 import { Reveal } from '../ui/Reveal';
 import { process } from '../../data/content';
 
-/**
- * Горизонтальный editorial-ряд: 4 шага в 4 колонки, гигантские номера,
- * крошечные подписи. Никаких 12-col-eyebrow.
- */
 export function Process() {
   return (
-    <section id="process" className="bg-paper px-5 md:px-10 py-36 md:py-56">
-      <div className="max-w-site mx-auto">
-        <Reveal as="div" className="mb-20 md:mb-28">
-          <h2 className="display display-tight text-ink leading-[1.0] text-[clamp(2.4rem,5.6vw,5rem)] max-w-[16ch]">
-            процесс
-            <span className="italic text-ink/50"> · от звонка до прощания</span>
-          </h2>
-        </Reveal>
+    <section id="process" className="border-t border-border bg-card">
+      <div className="mx-auto max-w-site px-6 py-20 md:py-28 lg:px-10">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
+          <Reveal as="div" className="lg:col-span-4">
+            <p className="eyebrow">{process.eyebrow}</p>
+            <h2 className="mt-5 display display-tight text-foreground text-[clamp(2rem,4.4vw,3.4rem)] leading-[1.05] max-w-[16ch]">
+              {process.title}
+            </h2>
+            <p className="mt-6 max-w-sm leading-relaxed text-muted-foreground">
+              {process.body}
+            </p>
+          </Reveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-6 md:divide-x divide-ink/15">
-          {process.steps.map((s, i) => (
-            <Reveal key={s.no} delay={i * 90} as="article" className="md:px-6 first:md:pl-0 last:md:pr-0">
-              <span className="display text-ink leading-none text-[clamp(72px,8vw,120px)] block">
-                {s.no}
-              </span>
-              <h3 className="mt-7 md:mt-9 text-[14px] tracking-wide3 uppercase text-ink font-medium">
-                {s.title}
-              </h3>
-              <p className="mt-3 text-[14px] leading-relaxed text-ink/65 font-light max-w-[28ch]">
-                {s.text}
-              </p>
-            </Reveal>
-          ))}
+          <ol className="lg:col-span-8">
+            {process.steps.map((s, i) => (
+              <Reveal
+                key={s.number}
+                as="li"
+                delay={i * 90}
+                className={`flex flex-col gap-4 py-8 sm:flex-row sm:items-baseline sm:gap-10 ${
+                  i !== 0 ? 'border-t border-border' : ''
+                }`}
+              >
+                <span className="display text-3xl text-muted-foreground/50 sm:w-20">{s.number}</span>
+                <div className="sm:flex-1">
+                  <h3 className="display text-2xl text-foreground">{s.title}</h3>
+                  <p className="mt-2 max-w-md leading-relaxed text-muted-foreground">{s.description}</p>
+                </div>
+              </Reveal>
+            ))}
+          </ol>
         </div>
       </div>
     </section>

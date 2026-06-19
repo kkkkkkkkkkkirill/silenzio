@@ -3,56 +3,77 @@
 @tailwind utilities;
 
 @layer base {
-  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  :root {
+    color-scheme: light;
+    /* tokens in HSL; using values close to original concept #f4f2ee / #1a1815 */
+    --background: 40 25% 94%;          /* #f4f2ee */
+    --foreground: 40 8% 9%;             /* #1a1815 */
+    --card: 40 22% 97%;                 /* #faf9f6 */
+    --card-foreground: 40 8% 9%;
+    --primary: 40 8% 9%;                /* dark ink for buttons */
+    --primary-foreground: 40 25% 94%;
+    --secondary: 40 14% 89%;            /* #e8e5df */
+    --secondary-foreground: 40 8% 9%;
+    --muted: 40 14% 89%;
+    --muted-foreground: 30 7% 39%;      /* #6b665d */
+    --accent: 40 14% 89%;
+    --accent-foreground: 40 8% 9%;
+    --border: 40 17% 82%;               /* #d8d4cb */
+    --input: 40 17% 82%;
+    --ring: 40 8% 9%;
+  }
+  * { border-color: hsl(var(--border)); }
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    font-family: 'Geist', system-ui, sans-serif;
+    font-feature-settings: 'cv11', 'ss01';
+  }
   body {
-    font-family: 'Archivo', system-ui, sans-serif;
-    font-weight: 400;
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
     line-height: 1.55;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
   }
-  ::selection { background: #111; color: #fff; }
+  ::selection { background: hsl(var(--foreground)); color: hsl(var(--background)); }
 }
 
-@layer utilities {
-  /* Главная типографическая утилита: editorial serif */
-  .display {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-weight: 500;
-    letter-spacing: -0.025em;
-    text-wrap: balance;
-  }
-  .display-tight { letter-spacing: -0.035em; }
-
-  /* Микро-метки */
+@layer components {
   .eyebrow {
-    font-family: 'Archivo', system-ui, sans-serif;
+    font-family: 'Geist', system-ui, sans-serif;
     font-size: 11px;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: #8c8c8c;
+    color: hsl(var(--muted-foreground));
     font-weight: 500;
   }
+}
 
-  /* Очень тонкая горизонтальная линия */
-  .hair-line { height: 1px; background-color: #111; opacity: 0.12; }
+@layer utilities {
+  .display {
+    font-family: 'Fraunces', Georgia, serif;
+    font-variation-settings: 'SOFT' 30, 'WONK' 0;
+    font-weight: 450;
+    letter-spacing: -0.018em;
+    text-wrap: balance;
+  }
+  .display-tight { letter-spacing: -0.028em; }
 
-  /* Появление на скролле */
+  .hair-line { height: 1px; background-color: hsl(var(--border)); }
+
+  /* IntersectionObserver-driven reveal */
   .reveal {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(16px);
     filter: blur(4px);
     transition:
-      opacity 900ms cubic-bezier(0.22, 1, 0.36, 1),
-      transform 900ms cubic-bezier(0.22, 1, 0.36, 1),
-      filter   900ms cubic-bezier(0.22, 1, 0.36, 1);
+      opacity 800ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 800ms cubic-bezier(0.22, 1, 0.36, 1),
+      filter 800ms cubic-bezier(0.22, 1, 0.36, 1);
     transition-delay: var(--reveal-delay, 0ms);
   }
-  .reveal.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
-  }
+  .reveal.is-visible { opacity: 1; transform: translateY(0); filter: blur(0); }
 
   @media (prefers-reduced-motion: reduce) {
     .reveal { transition: opacity 200ms linear; transform: none; filter: none; }

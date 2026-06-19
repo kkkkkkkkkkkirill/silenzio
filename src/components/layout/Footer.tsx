@@ -1,56 +1,35 @@
-import { footer, meta } from '../../data/content';
+import { nav, footer } from '../../data/content';
 import logo from '../../assets/silenzio-logo.svg';
 
 export function Footer() {
+  const year = new Date().getFullYear();
   return (
-    <footer className="border-t border-ink/10 bg-paper">
-      <div className="max-w-site mx-auto px-5 md:px-10 pt-28 md:pt-36 pb-14">
-        <div className="grid grid-cols-12 gap-y-14 gap-x-10">
-          <div className="col-span-12 md:col-span-8">
-            <img
-              src={logo}
-              alt="silenzio"
-              className="h-12 md:h-20 w-auto mb-10 select-none"
-              draggable={false}
-            />
-            <p className="display italic text-ink/65 text-[18px] md:text-[22px] leading-[1.4] max-w-[42ch]">
+    <footer className="border-t border-border bg-primary text-primary-foreground">
+      <div className="mx-auto max-w-site px-6 py-16 lg:px-10">
+        <div className="flex flex-col gap-12 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <img src={logo} alt="SILENZIO" className="h-4 w-auto invert" draggable={false} />
+            <p className="mt-5 max-w-xs text-sm leading-relaxed text-primary-foreground/60">
               {footer.tagline}
             </p>
           </div>
 
-          <div className="col-span-12 md:col-span-4 md:text-right space-y-6">
-            <div>
-              <p className="eyebrow mb-2">телефон</p>
-              <a
-                href={`tel:${meta.phone.replace(/[^+\d]/g, '')}`}
-                className="display text-ink text-[22px] md:text-[26px] tracking-editorial hover:opacity-60 transition-opacity"
-              >
-                {meta.phone}
-              </a>
-            </div>
-            <div>
-              <p className="eyebrow mb-2">почта</p>
-              <a
-                href={`mailto:${meta.email}`}
-                className="display text-ink text-[18px] md:text-[22px] tracking-editorial hover:opacity-60 transition-opacity break-all"
-              >
-                {meta.email}
-              </a>
-            </div>
-            <div>
-              <p className="eyebrow mb-2">режим</p>
-              <span className="display italic text-ink/65 text-[18px] md:text-[22px]">
-                {meta.city}
-              </span>
-            </div>
-          </div>
+          <nav aria-label="Навигация в подвале">
+            <ul className="flex flex-wrap gap-x-8 gap-y-3">
+              {nav.map((item) => (
+                <li key={item.href}>
+                  <a href={item.href} className="text-sm text-primary-foreground/70 transition-colors hover:text-primary-foreground">
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
 
-        <div className="hair-line mt-16 mb-10" />
-
-        <div className="flex flex-col md:flex-row justify-between gap-3 text-[11px] tracking-wide2 text-ink/45">
-          <p>{footer.copy}</p>
-          <p className="uppercase tracking-wide3">il silenzio · ritual house</p>
+        <div className="mt-14 flex flex-col gap-3 border-t border-primary-foreground/15 pt-8 text-xs text-primary-foreground/50 sm:flex-row sm:items-center sm:justify-between">
+          <p>© {year} SILENZIO. Все права защищены.</p>
+          <p className="italic">il silenzio — память в тишине</p>
         </div>
       </div>
     </footer>

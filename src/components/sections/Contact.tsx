@@ -1,92 +1,103 @@
-import { useState } from 'react';
-import { ArrowRight } from 'lucide-react';
+import { useState, type FormEvent } from 'react';
+import { Phone, Mail, Clock } from 'lucide-react';
 import { Reveal } from '../ui/Reveal';
-import { contact } from '../../data/content';
+import { contact, meta } from '../../data/content';
 
-/**
- * Контакты без рамки. Поля — на воздухе, тонкая нижняя линия.
- * Слева большой 2-строчный заголовок и список координат.
- * Справа — форма без границ.
- */
 export function Contact() {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [message, setMessage] = useState('');
 
-  const onSubmit = (e: React.FormEvent) => {
+  function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const subject = encodeURIComponent('Заявка с сайта SILENZIO');
-    const body = encodeURIComponent(
-      [`Имя: ${name || '—'}`, `Телефон: ${phone || '—'}`, `Сообщение: ${message || '—'}`].join('\n'),
-    );
-    window.location.href = `mailto:llev25359@gmail.com?subject=${subject}&body=${body}`;
-  };
+    const body = encodeURIComponent(`Имя: ${name}\nТелефон: ${phone}\n\n${message}`);
+    window.location.href = `mailto:${meta.email}?subject=${subject}&body=${body}`;
+  }
 
   return (
-    <section id="contact" className="bg-paper px-5 md:px-10 py-36 md:py-56">
-      <div className="max-w-site mx-auto grid grid-cols-12 gap-x-10 gap-y-20">
-        <Reveal as="div" className="col-span-12 md:col-span-5">
-          <h2 className="display display-tight text-ink leading-[0.98] text-[clamp(2.4rem,5.6vw,5rem)] max-w-[12ch]">
-            {contact.title.split('\n').map((line, i) => (
-              <span key={i} className="block">{line}</span>
-            ))}
-          </h2>
-          <p className="display italic text-ink/55 mt-7 text-[18px] md:text-[22px] leading-[1.4] max-w-[36ch]">
-            {contact.description}
-          </p>
+    <section id="contact" className="border-t border-border">
+      <div className="mx-auto grid max-w-site grid-cols-1 lg:grid-cols-2">
+        <Reveal as="div" className="flex flex-col justify-between gap-12 px-6 py-20 md:py-28 lg:border-r lg:border-border lg:px-10">
+          <div>
+            <p className="eyebrow">{contact.eyebrow}</p>
+            <h2 className="mt-5 display display-tight text-foreground text-balance text-[clamp(2.4rem,5vw,4rem)] leading-[1.05]">
+              {contact.title.split('\n').map((line, i) => (
+                <span key={i} className="block">
+                  {i === 1 ? <span className="italic text-muted-foreground">{line}</span> : line}
+                </span>
+              ))}
+            </h2>
+            <p className="mt-8 max-w-md leading-relaxed text-muted-foreground">{contact.description}</p>
+          </div>
 
-          <ul className="mt-14 space-y-8">
-            {contact.blocks.map((b) => (
-              <li key={b.label}>
-                <p className="eyebrow mb-1.5">{b.label}</p>
-                {b.href ? (
-                  <a
-                    href={b.href}
-                    className="display text-ink text-[22px] md:text-[30px] tracking-editorial hover:opacity-55 transition-opacity"
-                  >
-                    {b.value}
-                  </a>
-                ) : (
-                  <span className="display text-ink text-[22px] md:text-[30px] tracking-editorial">
-                    {b.value}
-                  </span>
-                )}
-              </li>
-            ))}
-          </ul>
+          <div className="flex flex-col gap-6">
+            <a
+              href={meta.phoneHref}
+              className="flex items-center gap-4 text-2xl font-medium tracking-tight text-foreground transition-opacity hover:opacity-70 md:text-3xl"
+            >
+              <Phone className="size-5 text-muted-foreground" strokeWidth={1.5} />
+              {meta.phone}
+            </a>
+            <a
+              href={`mailto:${meta.email}`}
+              className="flex items-center gap-4 text-lg text-foreground transition-opacity hover:opacity-70"
+            >
+              <Mail className="size-5 text-muted-foreground" strokeWidth={1.5} />
+              {meta.email}
+            </a>
+            <p className="flex items-center gap-4 text-muted-foreground">
+              <Clock className="size-5" strokeWidth={1.5} />
+              Круглосуточно, 7 дней в неделю
+            </p>
+          </div>
         </Reveal>
 
-        <Reveal delay={150} as="div" className="col-span-12 md:col-span-6 md:col-start-7">
-          <form onSubmit={onSubmit} className="">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-10">
-              <Field label="имя" value={name} onChange={setName} placeholder="как к вам обращаться" />
-              <Field label="телефон" value={phone} onChange={setPhone} placeholder={contact.form.phone} type="tel" />
-            </div>
-            <div className="mt-12">
-              <label className="block">
-                <span className="eyebrow block mb-3">{contact.form.message}</span>
-                <textarea
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  rows={3}
-                  className="w-full bg-transparent border-b border-ink/20 focus:border-ink outline-none py-3 text-[16px] resize-none transition-colors duration-300"
-                  placeholder="дата церемонии, формат, пожелания"
-                />
+        <Reveal delay={120} as="div" className="bg-card px-6 py-20 md:py-28 lg:px-10">
+          <form onSubmit={onSubmit} className="flex flex-col gap-6">
+            <p className="display text-2xl text-foreground">{contact.formTitle}</p>
+
+            <Field
+              id="name"
+              label="Имя"
+              value={name}
+              onChange={setName}
+              placeholder="Как к вам обращаться"
+              required
+            />
+            <Field
+              id="phone"
+              label="Телефон"
+              value={phone}
+              onChange={setPhone}
+              placeholder="+7 ___ ___-__-__"
+              required
+              type="tel"
+            />
+
+            <div className="flex flex-col gap-2">
+              <label htmlFor="message" className="text-xs font-medium uppercase tracking-wide4 text-muted-foreground">
+                Сообщение
               </label>
+              <textarea
+                id="message"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                rows={4}
+                className="resize-none border-b border-border bg-transparent py-3 text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-foreground"
+                placeholder="Коротко опишите, чем мы можем помочь"
+              />
             </div>
-            <div className="mt-14 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
-              <p className="text-[11px] tracking-wide2 text-ink/45 max-w-[40ch] leading-relaxed">
-                отправляя форму, вы соглашаетесь с обработкой данных
-                для подготовки сценария.
-              </p>
-              <button
-                type="submit"
-                className="group inline-flex items-center gap-3 text-ink hover:text-ink/60 transition-colors duration-300"
-              >
-                <span className="display italic text-[20px] md:text-[24px]">{contact.form.submit}</span>
-                <ArrowRight size={18} strokeWidth={1.5} className="transition-transform duration-500 group-hover:translate-x-1.5" />
-              </button>
-            </div>
+
+            <button
+              type="submit"
+              className="mt-2 inline-flex items-center justify-center bg-primary px-8 py-4 text-sm font-medium tracking-tight text-primary-foreground transition-opacity hover:opacity-90"
+            >
+              Отправить заявку
+            </button>
+            <p className="text-xs leading-relaxed text-muted-foreground">
+              Нажимая кнопку, вы соглашаетесь на обработку персональных данных.
+            </p>
           </form>
         </Reveal>
       </div>
@@ -95,28 +106,25 @@ export function Contact() {
 }
 
 function Field({
-  label,
-  value,
-  onChange,
-  placeholder,
-  type = 'text',
+  id, label, value, onChange, placeholder, type = 'text', required,
 }: {
-  label: string;
-  value: string;
-  onChange: (v: string) => void;
-  placeholder: string;
-  type?: string;
+  id: string; label: string; value: string; onChange: (v: string) => void;
+  placeholder: string; type?: string; required?: boolean;
 }) {
   return (
-    <label className="block">
-      <span className="eyebrow block mb-3">{label}</span>
+    <div className="flex flex-col gap-2">
+      <label htmlFor={id} className="text-xs font-medium uppercase tracking-wide4 text-muted-foreground">
+        {label}
+      </label>
       <input
+        id={id}
         type={type}
         value={value}
+        required={required}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full bg-transparent border-b border-ink/20 focus:border-ink outline-none py-3 text-[16px] transition-colors duration-300"
+        className="border-b border-border bg-transparent py-3 text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-foreground"
       />
-    </label>
+    </div>
   );
 }

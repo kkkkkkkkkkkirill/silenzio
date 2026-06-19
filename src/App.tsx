@@ -1,24 +1,24 @@
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
 import { Hero } from './components/sections/Hero';
-import { Manifesto } from './components/sections/Manifesto';
+import { Holding } from './components/sections/Holding';
 import { Services } from './components/sections/Services';
 import { Products } from './components/sections/Products';
 import { Process } from './components/sections/Process';
-import { Quote } from './components/sections/Quote';
+import { Why } from './components/sections/Why';
 import { Contact } from './components/sections/Contact';
 
 export function App() {
   return (
-    <div className="bg-paper text-ink min-h-screen selection:bg-ink selection:text-paper">
+    <div className="min-h-dvh bg-background">
       <Navbar />
       <main>
         <Hero />
-        <Manifesto />
+        <Holding />
         <Services />
         <Products />
         <Process />
-        <Quote />
+        <Why />
         <Contact />
       </main>
       <Footer />
