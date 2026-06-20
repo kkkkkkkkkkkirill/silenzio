@@ -1,4 +1,4 @@
-import { ArrowRight, Phone, Sparkles } from 'lucide-react';
+import { ArrowRight, Phone } from 'lucide-react';
 import { hero, meta } from '../../data/content';
 import granitePoster from '../../assets/hero/granite-loop.jpg';
 import graniteVideo from '../../assets/hero/granite-loop.mp4';
@@ -78,13 +78,12 @@ export function Hero() {
       <div className="relative z-10 mx-auto w-full max-w-site flex-1 flex flex-col px-5 pt-28 pb-14 sm:px-6 md:pt-36 md:pb-20 lg:px-10">
         <div className="max-w-[820px]">
 
-          {/* Кикер — без рамки, просто текст */}
+          {/* Кикер — простой текст без иконки и точки */}
           <p
-            className="silenzio-fade inline-flex items-center gap-2 text-[10px] sm:text-[11px] font-semibold uppercase tracking-wide4 text-background/75"
+            className="silenzio-fade text-[10px] sm:text-[11px] font-semibold uppercase tracking-wide4 text-background/75"
             style={{ animationDelay: '80ms' }}
           >
-            <Sparkles className="w-3.5 h-3.5 text-background/65" strokeWidth={1.6} />
-            {hero.eyebrow} · {meta.since}
+            {hero.eyebrow} с 2011
           </p>
 
           {/* Heading */}
