@@ -1,40 +1,51 @@
-import { ProductFeatureCard } from '../ui/product-feature-card';
-import { Reveal } from '../ui/Reveal';
+import { ParallaxFeatureSection, type ParallaxFeatureItem } from '../ui/parallax-scroll-feature-section';
 import { services } from '../../data/content';
 
-/**
- * Сетка ProductFeatureCard вместо предыдущего ContainerScroll-планшета.
- * Карточки появляются по очереди через framer-motion (spring + bounce).
- * Иконка lucide служит ключевым символом каждой услуги.
- */
+import ceremony from '../../assets/services/ceremony.jpg';
+import niches from '../../assets/services/niches.jpg';
+import monuments from '../../assets/services/monuments.jpg';
+import urns from '../../assets/services/urns.jpg';
+import screens from '../../assets/services/screens.jpg';
+import flowers from '../../assets/services/flowers.jpg';
+import transport from '../../assets/services/transport.jpg';
+
+const IMAGES: Record<string, string> = {
+  '01': ceremony,
+  '02': niches,
+  '03': monuments,
+  '04': urns,
+  '05': screens,
+  '06': flowers,
+  '07': transport,
+};
+
 export function Services() {
+  const items: ParallaxFeatureItem[] = services.items.map((s, i) => ({
+    id: s.index,
+    index: s.index,
+    title: s.title,
+    description: s.description,
+    imageUrl: IMAGES[s.index],
+    imageAlt: s.title,
+    reverse: i % 2 === 1,
+  }));
+
   return (
-    <section id="services" className="border-t border-border bg-card">
-      <div className="mx-auto max-w-site px-6 py-20 md:py-28 lg:px-10">
-        <Reveal as="div" className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-end mb-14 md:mb-20">
-          <div className="lg:col-span-8">
+    <section id="services" className="border-t border-border bg-background">
+      <ParallaxFeatureSection
+        items={items}
+        intro={
+          <>
             <p className="eyebrow">{services.eyebrow}</p>
-            <h2 className="mt-5 display display-tight text-foreground text-balance text-[clamp(2.2rem,4.6vw,3.6rem)] leading-[1.05]">
+            <h2 className="mt-5 display display-tight text-foreground text-balance text-[clamp(2.4rem,5.4vw,4.4rem)] leading-[1.04] max-w-[18ch]">
               {services.title}
             </h2>
-          </div>
-          <p className="max-w-xs leading-relaxed text-muted-foreground lg:col-span-4 lg:text-right">
-            {services.tag}
-          </p>
-        </Reveal>
-
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 md:gap-6">
-          {services.items.map((s) => (
-            <ProductFeatureCard
-              key={s.index}
-              Icon={s.Icon}
-              index={s.index}
-              title={s.title}
-              description={s.description}
-            />
-          ))}
-        </div>
-      </div>
+            <p className="mt-7 max-w-xl text-muted-foreground leading-relaxed">
+              {services.tag}
+            </p>
+          </>
+        }
+      />
     </section>
   );
 }
