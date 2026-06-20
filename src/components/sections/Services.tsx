@@ -19,6 +19,17 @@ const IMAGES: Record<string, string> = {
   '07': transport,
 };
 
+// Портретные сцены — высокий aspect; ландшафтные — широкий.
+const ASPECT: Record<string, string> = {
+  '01': '5/4',  // организация — landscape
+  '02': '5/4',  // ниши — landscape
+  '03': '4/5',  // памятники — portrait
+  '04': '4/5',  // урны — portrait
+  '05': '5/4',  // экраны — landscape
+  '06': '5/4',  // цветы — landscape
+  '07': '4/5',  // транспорт — portrait
+};
+
 export function Services() {
   const items: ParallaxFeatureItem[] = services.items.map((s, i) => ({
     id: s.index,
@@ -28,6 +39,7 @@ export function Services() {
     imageUrl: IMAGES[s.index],
     imageAlt: s.title,
     reverse: i % 2 === 1,
+    aspect: ASPECT[s.index],
   }));
 
   return (

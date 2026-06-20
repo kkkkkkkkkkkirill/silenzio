@@ -9,6 +9,9 @@ export interface ParallaxFeatureItem {
   imageUrl: string;
   imageAlt?: string;
   reverse?: boolean;
+  /** aspect-ratio CSS string, e.g. '5/4' (landscape) or '4/5' (portrait).
+   *  Если не задан — используется 5/4. */
+  aspect?: string;
 }
 
 interface Props {
@@ -74,10 +77,10 @@ function ParallaxRow({ item }: { item: ParallaxFeatureItem }) {
       </motion.div>
 
       {/* IMAGE */}
-      <div className="md:col-span-7 w-full">
+      <div className="md:col-span-7 w-full flex justify-center">
         <motion.div
-          style={{ opacity, scale, filter }}
-          className="relative w-full aspect-[5/4] overflow-hidden bg-secondary/60"
+          style={{ opacity, scale, filter, aspectRatio: item.aspect ?? '5/4' }}
+          className="relative w-full max-w-[640px] overflow-hidden bg-secondary/60"
         >
           <img
             src={item.imageUrl}
