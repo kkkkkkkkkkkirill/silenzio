@@ -2,10 +2,9 @@ import { ArrowDown } from 'lucide-react';
 import { hero, meta } from '../../data/content';
 
 /**
- * Hero — текст слева в max-w-site, видео справа на всю правую половину
- * viewport-а (lg+). Видео привязано position: absolute к <section>,
- * чтобы наверняка получить высоту от текстовой колонки и растянуться
- * до правого края экрана.
+ * Hero. На lg+: текст в левой колонке, занимает ~58% контейнера;
+ * видео — absolute fill в правой половине viewport (w-[50vw]),
+ * inset-y-0 right-0.
  */
 
 const GRANITE_VIDEO =
@@ -13,30 +12,33 @@ const GRANITE_VIDEO =
 
 export function Hero() {
   return (
-    <section id="top" className="relative overflow-hidden pt-16 md:pt-20 bg-background">
-      {/* Видео — абсолютный блок по правой половине только на десктопе.
-          На мобиле скрыт; в потоке появляется отдельная блочная версия ниже. */}
-      <div className="pointer-events-none hidden lg:block absolute right-0 top-0 bottom-0 w-1/2 z-0">
+    <section
+      id="top"
+      className="relative isolate overflow-hidden pt-16 md:pt-20 bg-background"
+    >
+      {/* === Видео справа (только lg+) === */}
+      <div className="hidden lg:block absolute inset-y-0 right-0 w-[50vw] z-[1]">
         <video
           src={GRANITE_VIDEO}
           autoPlay
           loop
           muted
           playsInline
-          preload="metadata"
+          preload="auto"
           aria-hidden="true"
-          className="hero-stone absolute inset-0 h-full w-full object-cover"
+          className="hero-stone block h-full w-full object-cover"
         />
+        {/* мягкий переход в бежевый слева */}
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-r from-background via-background/10 to-transparent"
+          className="pointer-events-none absolute inset-0 bg-gradient-to-r from-background via-background/10 to-transparent"
         />
         <p className="absolute bottom-6 right-6 eyebrow !text-foreground/55">{meta.city}</p>
       </div>
 
-      {/* Контейнер с текстом */}
-      <div className="relative z-10 mx-auto max-w-site grid grid-cols-1 lg:grid-cols-12 gap-0 px-6 lg:px-10">
-        <div className="flex flex-col justify-center py-16 md:py-24 lg:col-span-7 lg:py-32 lg:pr-12">
+      {/* === Текст слева === */}
+      <div className="relative z-[2] mx-auto max-w-site px-6 lg:px-10">
+        <div className="max-w-[640px] py-16 md:py-24 lg:py-32 lg:pr-8">
           <p className="eyebrow animate-reveal-up [animation-delay:80ms]">{hero.eyebrow}</p>
 
           <h1 className="mt-7 display display-tight text-foreground text-[clamp(56px,9vw,108px)] leading-[0.95] animate-reveal-up [animation-delay:180ms]">
@@ -75,28 +77,21 @@ export function Hero() {
             ))}
           </dl>
         </div>
-
-        {/* Удерживает правую полуколонку, чтобы видео имело над собой
-            нужное пространство grid на десктопе. */}
-        <div className="hidden lg:block lg:col-span-5" aria-hidden="true" />
       </div>
 
-      {/* Мобильная версия видео — в нормальном потоке */}
-      <div className="relative h-[360px] w-full lg:hidden">
+      {/* === Видео внизу на мобильной версии === */}
+      <div className="relative h-[320px] w-full lg:hidden">
         <video
           src={GRANITE_VIDEO}
           autoPlay
           loop
           muted
           playsInline
-          preload="metadata"
+          preload="auto"
           aria-hidden="true"
-          className="hero-stone absolute inset-0 h-full w-full object-cover"
+          className="hero-stone block h-full w-full object-cover"
         />
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-t from-background/55 via-background/10 to-transparent"
-        />
+        <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-background/55 via-background/10 to-transparent" />
       </div>
 
       <style>{`
