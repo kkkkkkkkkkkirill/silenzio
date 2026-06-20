@@ -45,7 +45,9 @@ export function Hero() {
         draggable={false}
       />
 
-      {/* Background video */}
+      {/* Background video.
+          onCanPlay принудительно вызывает play() — гарантирует
+          автостарт даже если браузер заблокировал autoplay-атрибут */}
       <video
         src={graniteVideo}
         poster={granitePoster}
@@ -55,6 +57,10 @@ export function Hero() {
         playsInline
         preload="auto"
         aria-hidden="true"
+        onCanPlay={(e) => {
+          const v = e.currentTarget;
+          if (v.paused) v.play().catch(() => {});
+        }}
         className="hero-stone absolute inset-0 z-[1] h-full w-full object-cover"
       />
 
@@ -72,15 +78,14 @@ export function Hero() {
       <div className="relative z-10 mx-auto w-full max-w-site flex-1 flex flex-col px-5 pt-28 pb-14 sm:px-6 md:pt-36 md:pb-20 lg:px-10">
         <div className="max-w-[820px]">
 
-          {/* Badge */}
-          <div className="silenzio-fade" style={{ animationDelay: '80ms' }}>
-            <div className="inline-flex items-center gap-2 border border-background/20 bg-background/[0.06] px-3.5 py-2 backdrop-blur-md">
-              <Sparkles className="w-3.5 h-3.5 text-background/80" strokeWidth={1.6} />
-              <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wide4 text-background/85">
-                {hero.eyebrow} · {meta.since}
-              </span>
-            </div>
-          </div>
+          {/* Кикер — без рамки, просто текст */}
+          <p
+            className="silenzio-fade inline-flex items-center gap-2 text-[10px] sm:text-[11px] font-semibold uppercase tracking-wide4 text-background/75"
+            style={{ animationDelay: '80ms' }}
+          >
+            <Sparkles className="w-3.5 h-3.5 text-background/65" strokeWidth={1.6} />
+            {hero.eyebrow} · {meta.since}
+          </p>
 
           {/* Heading */}
           <h1
@@ -123,13 +128,13 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Stats — три цифры внизу, без glass-обвязки */}
+        {/* Stats — три цифры внизу, без линии и без glass-обвязки */}
         <div
-          className="silenzio-fade mt-auto pt-14 md:pt-20 grid grid-cols-3 max-w-[640px] gap-x-8 gap-y-4 border-t border-background/15"
+          className="silenzio-fade mt-auto pt-20 md:pt-28 grid grid-cols-3 max-w-[640px] gap-x-8 gap-y-4"
           style={{ animationDelay: '560ms' }}
         >
           {STATS.map((s) => (
-            <div key={s.label} className="pt-7">
+            <div key={s.label}>
               <p className="display text-background text-3xl md:text-4xl leading-none">{s.value}</p>
               <p className="mt-2 text-[11px] sm:text-[12px] uppercase tracking-wide3 text-background/55">
                 {s.label}
