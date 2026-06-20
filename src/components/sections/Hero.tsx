@@ -12,6 +12,7 @@ import {
   Truck,
 } from 'lucide-react';
 import { hero, meta } from '../../data/content';
+import heroPoster from '../../assets/hero/hero-granite.jpg';
 
 /**
  * Hero на шаблоне «glassmorphism trust hero», адаптирован под
@@ -62,36 +63,49 @@ export function Hero() {
         }
         .silenzio-fade { animation: silenzioFadeUp 0.85s cubic-bezier(0.22,1,0.36,1) both; }
         .silenzio-marquee { animation: silenzioMarquee 48s linear infinite; }
-        .hero-stone { filter: grayscale(1) contrast(1.05) brightness(0.92); }
+        .hero-stone { filter: grayscale(1) contrast(1.18) brightness(1.18); }
         @media (prefers-reduced-motion: reduce) {
           .silenzio-fade, .silenzio-marquee { animation: none; }
         }
       `}</style>
 
-      {/* Background video with vertical fade mask */}
-      <div
+      {/* Background poster fallback (показывается пока видео грузится
+          и если оно вдруг не отдалось — точно не «пусто») */}
+      <img
+        src={heroPoster}
+        alt=""
         aria-hidden="true"
-        className="absolute inset-0 z-0 opacity-50"
-        style={{
-          maskImage: 'linear-gradient(180deg, transparent 0%, black 12%, black 70%, transparent 100%)',
-          WebkitMaskImage: 'linear-gradient(180deg, transparent 0%, black 12%, black 70%, transparent 100%)',
-        }}
-      >
-        <video
-          src={GRANITE_VIDEO}
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-          className="hero-stone block h-full w-full object-cover"
-        />
-      </div>
+        className="hero-stone absolute inset-0 z-0 h-full w-full object-cover"
+        draggable={false}
+      />
 
-      {/* Лёгкий радиальный warm-glow в правом-верхнем углу для атмосферы */}
+      {/* Background video */}
+      <video
+        src={GRANITE_VIDEO}
+        poster={heroPoster}
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="auto"
+        aria-hidden="true"
+        className="hero-stone absolute inset-0 z-[1] h-full w-full object-cover"
+      />
+
+      {/* Darkening overlay для читаемости текста + лёгкий vignette */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -right-40 -top-40 z-[1] h-[640px] w-[640px] rounded-full blur-3xl"
+        className="absolute inset-0 z-[2]"
+        style={{
+          background:
+            'linear-gradient(180deg, rgba(26,24,21,0.55) 0%, rgba(26,24,21,0.30) 35%, rgba(26,24,21,0.50) 75%, rgba(26,24,21,0.92) 100%)',
+        }}
+      />
+
+      {/* Warm-glow в правом-верхнем углу для атмосферы */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-40 -top-40 z-[3] h-[640px] w-[640px] rounded-full blur-3xl"
         style={{ background: 'radial-gradient(circle, rgba(244,242,238,0.06) 0%, transparent 70%)' }}
       />
 
