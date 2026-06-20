@@ -72,11 +72,11 @@ function Card({
         rotateX: rotate,
         scale,
         boxShadow:
-          '0 0 #0000004d, 0 9px 20px #0000002a, 0 37px 37px #00000022, 0 84px 50px #00000016, 0 149px 60px #0000000a',
+          '0 0 #0000004d, 0 9px 20px #0000004a, 0 37px 37px #00000042, 0 84px 50px #00000026, 0 149px 60px #0000000a',
       }}
-      className="max-w-6xl -mt-10 mx-auto h-[30rem] md:h-[40rem] w-full border-2 border-foreground/15 p-2 md:p-4 bg-foreground/[0.04] rounded-[24px]"
+      className="max-w-6xl mt-16 md:mt-24 mx-auto h-[30rem] md:h-[40rem] w-full border-4 border-foreground p-2 md:p-4 bg-foreground rounded-[24px]"
     >
-      <div className="h-full w-full overflow-hidden rounded-[16px] bg-card md:p-6">
+      <div className="h-full w-full overflow-hidden rounded-[16px] bg-card">
         {children}
       </div>
     </motion.div>
