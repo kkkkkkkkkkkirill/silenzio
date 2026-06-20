@@ -13,9 +13,9 @@ import graniteVideo from '../../assets/hero/granite-loop.mp4';
  */
 
 const STATS = [
-  { value: '15+', label: 'лет работы' },
+  { value: '15+',  label: 'лет работы' },
   { value: '24/7', label: 'на связи' },
-  { value: '0',   label: 'посредников' },
+  { value: '100%', label: 'полный цикл' },
 ];
 
 export function Hero() {
